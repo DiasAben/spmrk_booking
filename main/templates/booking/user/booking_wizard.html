@@ -1,44 +1,104 @@
-{% extends 'booking/user/base.html' %}
 {% load static %}
 
 
 {% block extra_css %}
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
 {% endblock extra_css %}
 
-{% block side_text %}
-    <div class="booking-cta">
-        <h1>{{title}}</h1>
-        <p>{{description}}</p>
-    </div>
-{% endblock side_text %}
 
 {% block steps %}
 {% include 'booking/admin/components/show_errors.html' %}
 
 <input type="hidden" id="available_booking_months" value="{{booking_settings.available_booking_months}}" />
 <input type="hidden" id="disable_weekend" value="{{booking_settings.disable_weekend}}" />
-
-<!-- steps START -->
-<div class="tab-pane fade show active" id="pills-date" role="tabpanel" aria-labelledby="pills-date-tab">
-    <h1 class="text-muted h2">{{wizard.steps.current}}</h1>
-    <p class="text-muted">Please fill in the booking {{wizard.steps.current}}:</p>
-    <hr>
-    {{ wizard.management_form }}
-    <div class="row">
-        {% for field in wizard.form %}
-            <div class="col-md-6 mb-3">
-                <div class="form-floating {% if field.is_hidden %}d-none{% endif %}">
-                    {{ field }}
-                    <label for="{{field.id_for_label}}">{{ field.label }}</label>
+<div id="modal-container">
+    <div class="modal-background">
+      <div class="modal">
+        <div class="tab-pane fade show active" id="pills-date" role="tabpanel" aria-labelledby="pills-date-tab">
+            <h1 class="text-muted h2">{{wizard.steps.current}}</h1>
+            <p class="text-muted">Please fill in the booking {{wizard.steps.current}}:</p>
+            <hr>
+            {{ wizard.management_form }}
+            <div class="row">
+                <div id="user-info">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating {% if wizard.form.user_name.is_hidden %}d-none{% endif %}">
+                            {{ wizard.form.user_name }}
+                            <label for="{{field.id_for_label}}">{{ wizard.form.user_name.label }}</label>
+                        </div>
+                        <div id="calendar-events">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating {% if wizard.form.user_email.is_hidden %}d-none{% endif %}">
+                            {{ wizard.form.user_email }}
+                            <label for="{{field.id_for_label}}">{{ wizard.form.user_email.label }}</label>
+                        </div>
+                        <div id="calendar-events">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating {% if wizard.form.user_mobile.is_hidden %}d-none{% endif %}">
+                            {{ wizard.form.user_mobile }}
+                            {{ wizard.form.email }}
+                            <label for="{{field.id_for_label}}">{{ wizard.form.user_mobile.label }}</label>
+                        </div>
+                    </div>
                 </div>
-                <div id="calendar-events">
+                <div id="date" class="form-info">
+                    <div class="form-floating {% if wizard.form.date.is_hidden %}d-none{% endif %}" id="form-info">
+                        {{ wizard.form.date }}
+                        <label for="{{field.id_for_label}}">{{ wizard.form.date.label }}</label>
+                    </div>
+                    <div id="calendar-events">
+                    </div>
                 </div>
+        </div>
+        </div>
+        <div class="form-btn d-flex mt-4" id="navbtn">
+                <div class="back" id="button-vis">Назад</div>
+                <div id="go" class="go">Продолжить</div>
+                <input type="submit" class="btn btn-primary border-0 text-uppercase ml-auto" name="next-step" id="button-vis" value="Next step" />
+                
             </div>
-        {% endfor %}
+      </div>
     </div>
-</div>
+  </div>
+  <div class="content">
+    <!-- TESTIMONIALS -->
+<section class="testimonials">
+	<div class="container">
+        <div class="col-sm-12">
+          <div id="customers-testimonials" class="owl-carousel">
+
+            <!--TESTIMONIAL 1 -->
+            <div class="item">
+              <div class="shadow-effect">
+                <p>Практика управления проектами на основе стандарта PMI® PMBOK® Guide 7th editions, базовый курс</p>
+              </div>
+              <div id="two" class="testimonial-name" onclick="trainingSort('управления')" >Купить</div>
+            </div>
+            <!--END OF TESTIMONIAL 1 -->
+            <!--TESTIMONIAL 2 -->
+            <div class="item">
+              <div class="shadow-effect">
+                <p>Подготовка к сертификации на статус PMP PMI® PMBOK® Guide 7th edition</p>
+              </div>
+              <div id="two" class="testimonial-name" onclick="trainingSort('сертификации')">Купить</div>
+            </div>
+            <!--END OF TESTIMONIAL 2 -->
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+  </div>
+<!-- steps START -->
+
 <!-- steps END -->
 
 </div>
@@ -47,9 +107,40 @@
 {% endblock steps %}
 
 {% block extra_script %}
+
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="{% static 'js/materialize.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{% static 'js/modal.js' %}"></script>
+<script src="{% static 'js/form.js' %}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        		"use strict";
+        		//  TESTIMONIALS CAROUSEL HOOK
+		        $('#customers-testimonials').owlCarousel({
+		            loop: true,
+		            items: 3,
+		            margin: 0,
+		            autoplay: true,
+		            dots:true,
+		            autoplayTimeout: 8500,
+		            smartSpeed: 450,
+		            responsive: {
+		              0: {
+		                items: 1
+		              },
+		              768: {
+		                items: 2
+		              },
+		              1170: {
+		                items: 2
+		              }
+		            }
+		        });
+        	});
+    </script>
 <script>
     // time functions START
     document.querySelectorAll("#time-list .bg-light, #time-list .bg-primary").forEach(timeBtn => {
@@ -73,7 +164,7 @@
     // Date Functions START
     var d = new Date();
     d.setMonth(d.getMonth() + document.querySelector("#available_booking_months").value);
-
+    
     const disable_weekend = document.querySelector("#disable_weekend").value;
     function rmWeekend(date) {
         if (disable_weekend == "False") return ""
@@ -84,30 +175,49 @@
        }
     }
     flatpickr.localize(flatpickr.l10ns.ru);
+    let name
     let test_data = {{demo|safe}}
-    let date_time = {}
-    let eventDates
-    for(var i of test_data){
-        eventDates = Object.assign(date_time, i);
+    async function trainingSort(word){
+        for(const [tname, tdate] of Object.entries(test_data)){
+            let findRex = tname.includes(word)
+            console.log(findRex)
+            if(findRex == true){
+                name = tname;
+                break;
+            }  
+        }
+        calendar(name)
+        document.getElementById('training_name').value = name
+        console.log(name)
     }
+    
+    console.log(name)
+    let date_time = {}
+    let eventDates = {}
+    for (const [tdate, tname] of Object.entries(test_data)) {
+        eventDates[tname] = tdate;
+      }
+    
+    document.getElementById('training_name').value = Object.keys(test_data)[0]
     console.log(eventDates)
-    flatpickr("#id_Date-date", {
-            minDate: '2022-11-08',
-            maxDate: d,
-            enable: Object.keys(eventDates),
-            shorthand: true,
-            onChange: function(date, str, inst) {
-                            var contents = '';
-                            if(date.length) {
-                                    contents += '<div class="event"><div class="date">' + flatpickr.formatDate(date[0], 'l J F') + '</div><div class="location">' + eventDates[str] + '</div></div>';
+    function calendar(trname){
+        flatpickr("#id_Date-date", {
+                minDate: '2022-11-08',
+                maxDate: d,
+                enable: test_data[trname],
+                shorthand: true,
+                onChange: function(date, str, inst) {
+                                var contents = '';
+                                if(date.length) {
+                                        contents += '<div class="event"><div class="date">' + flatpickr.formatDate(date[0], 'l J F') + '</div><div class="location">' + eventDates[str] + '</div></div>';
 
-                            }
-    $('#calendar-events').html(contents)
-  },
-            "locale": {
-                "firstDayOfWeek": 1 // start week on Monday
-            }
-        })
+                                }
+        $('#calendar-events').html(contents)
+    },
+                "locale": {
+                    "firstDayOfWeek": 1 // start week on Monday
+                }
+            })}
         // Date Functions END
 </script>
 {% endblock extra_script %}

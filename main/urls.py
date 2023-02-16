@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (BookingApproveView, BookingCreateWizardView,
                     BookingDeleteView, BookingHomeView, BookingListView,
-                    BookingSettingsView, get_available_time)
+                    BookingSettingsView)
 
 urlpatterns = [
     path("", BookingCreateWizardView.as_view(), name="create_booking"),
@@ -12,5 +12,4 @@ urlpatterns = [
          BookingDeleteView.as_view(), name="booking_delete"),
     path("admin/<pk>/approve",
          BookingApproveView.as_view(), name="booking_approve"),
-    path("get-available-time", get_available_time, name="get_available_time"),
 ]

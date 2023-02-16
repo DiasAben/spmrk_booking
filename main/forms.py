@@ -21,12 +21,20 @@ class ChangeInputsStyle(forms.Form):
 
 
 class BookingDateForm(ChangeInputsStyle):
+    user_name = forms.CharField(max_length=250, required=False)
+    user_email = forms.EmailField(required=False)
+    user_mobile = forms.CharField(required=False, max_length=10)
     date = forms.DateField(required=True)
+    email = forms.CharField(max_length=250,
+    widget=forms.HiddenInput(attrs={'id':'training_name'}),
+    required = False)
+    
 
 class BookingCustomerForm(ChangeInputsStyle):
-    user_name = forms.CharField(max_length=250)
-    user_email = forms.EmailField()
+    user_name = forms.CharField(max_length=250, required=False)
+    user_email = forms.EmailField(required=False)
     user_mobile = forms.CharField(required=False, max_length=10)
+    date = forms.DateField(required=True)
 
 
 class BookingSettingsForm(ChangeInputsStyle, forms.ModelForm):
