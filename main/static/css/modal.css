@@ -45,6 +45,7 @@
   border-radius: 3px;
   font-weight: 300;
   position: relative;
+  width: fit-content;
 }
 .modal-background .modal h2 {
   font-size: 25px;

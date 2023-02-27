@@ -24,7 +24,7 @@
             {{ wizard.management_form }}
             <div class="row">
                 <div id="user-info">
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3">
                         <div class="form-floating {% if wizard.form.user_name.is_hidden %}d-none{% endif %}">
                             {{ wizard.form.user_name }}
                             <label for="{{field.id_for_label}}">{{ wizard.form.user_name.label }}</label>
@@ -32,7 +32,7 @@
                         <div id="calendar-events">
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3">
                         <div class="form-floating {% if wizard.form.user_email.is_hidden %}d-none{% endif %}">
                             {{ wizard.form.user_email }}
                             <label for="{{field.id_for_label}}">{{ wizard.form.user_email.label }}</label>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3">
                         <div class="form-floating {% if wizard.form.user_mobile.is_hidden %}d-none{% endif %}">
                             {{ wizard.form.user_mobile }}
                             {{ wizard.form.email }}
@@ -57,14 +57,16 @@
                     <div id="calendar-events">
                     </div>
                 </div>
+                </div>
+          </div>
+          <div class="form-btn d-flex mt-4" id="navbtn">
+            <div class="back" id="button-vis">Назад</div>
+            <div id="go" class="go">Продолжить</div>
+            <input type="submit" class="btn btn-primary border-0 text-uppercase ml-auto" name="next-step" id="button-vis" value="Завершить" />
+            
         </div>
         </div>
-        <div class="form-btn d-flex mt-4" id="navbtn">
-                <div class="back" id="button-vis">Назад</div>
-                <div id="go" class="go">Продолжить</div>
-                <input type="submit" class="btn btn-primary border-0 text-uppercase ml-auto" name="next-step" id="button-vis" value="Next step" />
-                
-            </div>
+        
       </div>
     </div>
   </div>
@@ -180,7 +182,6 @@
     async function trainingSort(word){
         for(const [tname, tdate] of Object.entries(test_data)){
             let findRex = tname.includes(word)
-            console.log(findRex)
             if(findRex == true){
                 name = tname;
                 break;
@@ -188,10 +189,7 @@
         }
         calendar(name)
         document.getElementById('training_name').value = name
-        console.log(name)
     }
-    
-    console.log(name)
     let date_time = {}
     let eventDates = {}
     for (const [tdate, tname] of Object.entries(test_data)) {
@@ -199,7 +197,6 @@
       }
     
     document.getElementById('training_name').value = Object.keys(test_data)[0]
-    console.log(eventDates)
     function calendar(trname){
         flatpickr("#id_Date-date", {
                 minDate: '2022-11-08',
